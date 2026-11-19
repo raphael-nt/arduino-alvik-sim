@@ -2,8 +2,6 @@
 
 Simulators for Arduino Alvik robot training, made to prepare for the Arduino Day competition. Three simulator pages live in one file. Open `index.html` in a browser and it runs right away, with no install and no internet connection needed.
 
-Online : https://irap.club/arduino-alvik-sim/
-
 ## General use
 
 | Task | How |
