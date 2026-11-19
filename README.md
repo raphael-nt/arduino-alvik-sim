@@ -1,204 +1,194 @@
 # Alvik Sim Hub
 
-สนามจำลองสำหรับการอบรมหุ่นยนต์ Arduino Alvik เพื่อเตรียมการแข่งขัน Arduino Day รวมเครื่องจำลอง 3 หน้าไว้ในไฟล์เดียว เปิด `index.html` ในเบราว์เซอร์ได้ทันที ไม่ต้องติดตั้งโปรแกรมและไม่ต้องต่ออินเทอร์เน็ต
+Simulators for Arduino Alvik robot training, made to prepare for the Arduino Day competition. Three simulator pages live in one file. Open `index.html` in a browser and it runs right away, with no install and no internet connection needed.
 
-เปิดออนไลน์: https://raphael-nt.github.io/arduino-alvik-sim/
+Online : https://irap.club/arduino-alvik-sim/
 
-## การใช้งานทั่วไป
+## General use
 
-| ทำอะไร | วิธี |
+| Task | How |
 |---|---|
-| สลับหน้า | คลิกแท็บด้านบน หรือกด `←` `→` เมื่อเลือกแถบแท็บอยู่ |
-| เปิดหน้าที่ต้องการโดยตรง | ต่อท้ายลิงก์ด้วย `#arena`, `#tap` หรือ `#linetrack` |
-| โหมดนำเสนอ | กด `F` หรือปุ่ม "โหมดนำเสนอ" เพื่อซ่อนแถบด้านบนและเต็มจอ กด `Esc` เพื่อออก |
-| กลับมาหน้าเดิม | ระบบจำหน้าที่เปิดล่าสุดไว้ และแต่ละหน้าเก็บสถานะไว้เมื่อสลับไปมา |
+| Switch page | Click a tab at the top, or press the left and right arrow keys while the tab bar is focused |
+| Open a page directly | Add `#arena`, `#tap` or `#linetrack` to the end of the link |
+| Light or dark mode | Click the sun or moon icon at the top right. The choice applies to every page and is remembered |
+| Fullscreen | Click the fullscreen icon at the top right to hide the top bar. Press `Esc` or the button in the corner to leave |
+| Come back later | The last opened page is remembered, and each page keeps its state when you switch tabs |
 
 ---
 
-## 1. สนามแข่ง C++ (`#arena`)
+## 1. Coding (`#arena`)
 
-สนามเกม Lift & Park ขนาด 800 × 800 มม. หุ่นยนต์ต้องยกแท่นให้ขาทั้ง 4 ขาพ้นพื้น แล้วนำไปจอดในพื้นที่สีน้ำเงินให้ครบ 3 แท่น หน้าจอแบ่งเป็นสนามของทีม A และทีม B วางคู่กัน
+Lift & Park game field, 800 x 800 mm. The robot must lift a stand until all 4 legs are off the ground, then park it in the blue area. Park all 3 stands to finish. The screen shows the fields of Team A and Team B side by side.
 
-### ควบคุมการแข่งขัน
+### Match controls
 
-| ส่วน | หน้าที่ |
+| Control | Purpose |
 |---|---|
-| รูปแบบสนาม | เลือกแบบที่ 1 สามเหลี่ยม, แบบที่ 2 เรียงด้านขวา หรือแบบที่ 3 กระจาย |
-| สุ่มสนาม | สุ่มรูปแบบสนามเหมือนวันแข่ง |
-| เริ่ม Setup | เริ่มนับเวลา Setup 60 วินาที แล้วต่อด้วยเวลาแข่ง 90 วินาที |
-| เริ่มแข่งขัน / ข้าม Setup | ข้ามช่วง Setup ไปเริ่มแข่งทันที |
-| ชมสาธิตสองทีม | ให้ทั้งสองทีมเล่นอัตโนมัติเพื่อดูตัวอย่างการทำภารกิจ |
-| เล่นต่อ / เริ่มใหม่ | เล่นต่อจากที่พักไว้ หรือรีเซ็ตสนาม |
-| ความเร็วจำลองทีม A | ปรับความเร็วหุ่นยนต์ทีม A (มม./วินาที) |
-| ความเร็วการเล่น | เร่งการจำลองเป็น 1×, 2× หรือ 4× |
-| มองจากด้านบน | สลับมุมมองสนามระหว่างภาพ 3 มิติกับมุมบน |
-| โหมดสว่าง / โหมดมืด | สลับสีพื้นหลังของหน้า |
+| Field layout | Choose layout 1 triangle, layout 2 right row, or layout 3 scattered |
+| Random field | Pick a random layout, the same way as on match day |
+| Start Setup | Start the 60 second Setup timer, followed by the 90 second match |
+| Start match / Skip Setup | Skip Setup and start the match at once |
+| Watch two team demo | Both teams play automatically to show how the mission is done |
+| Resume / Restart | Continue from a pause, or reset the field |
+| Team A sim speed | Set the Team A robot speed (mm/s) |
+| Playback speed | Run the simulation at 1x, 2x or 4x |
+| Top view | Switch the field between the 3D view and the top view |
 
-นาฬิกามุมขวาบนแสดงช่วงเวลาและเวลาที่เหลือ การ์ดของแต่ละทีมแสดงจำนวนแท่นที่จอดได้ น้ำหนักที่ยกอยู่ เวลาออกพ้นกรอบแดง เวลายกแท่นแรก และเวลาที่ทำครบ แถบผลการแข่งขันจะบอกว่าทีมไหนชนะและชนะด้วยเกณฑ์ใด
+The clock at the top right shows the current phase and the time left. Each team card shows parked stands, the weight being lifted, the time to leave the red box, the time of the first lift and the finish time. The result bar tells which team won and by which rule.
 
-### โหมดการเล่น
+### Play modes
 
-| โหมด | ทีม A | ทีม B |
+| Mode | Team A | Team B |
 |---|---|---|
-| เขียนโค้ด C++ | รันโค้ดที่เขียนในหน้านี้ | เล่นอัตโนมัติ |
-| เล่นเอง | ขับด้วยคีย์บอร์ด | เล่นอัตโนมัติ |
-| สาธิตสองทีม | เล่นอัตโนมัติ | เล่นอัตโนมัติ |
+| C++ code | Runs the code written on this page | Plays automatically |
+| Manual | Driven with the keyboard | Plays automatically |
+| Two team demo | Plays automatically | Plays automatically |
 
-ทีม B เล่นที่ความเร็ว 92% ของทีม A เพื่อใช้เทียบเวลา
+Team B runs at 92% of the Team A speed, to use as a time reference.
 
-### ขับเองด้วยคีย์บอร์ด
+### Keyboard driving
 
-| ปุ่ม | ผล |
+| Key | Effect |
 |---|---|
-| `↑` `↓` `←` `→` หรือ `W` `A` `S` `D` | ขับหุ่นยนต์ตามทิศบนแผนผังสนาม |
-| `Space` | ยกแท่นหรือวางแท่น (ต้องอยู่กลางใต้แท่น) |
-| `P` | พักหรือเล่นต่อ |
+| Arrow keys or `W` `A` `S` `D` | Drive the robot along the directions of the field map |
+| `Space` | Lift or put down a stand (the robot must be centered under it) |
+| `P` | Pause or resume |
 
-### เขียนโค้ด Arduino C++
+### Arduino C++ code
 
-เขียนเหมือนใน Arduino IDE (Integrated Development Environment) คือมี `setup()` และ `loop()` แล้วเรียกคำสั่งผ่านตัวแปร `alvik`
+Write code the same way as in the Arduino IDE (Integrated Development Environment), with `setup()` and `loop()`, and call commands through the `alvik` object.
 
-| ส่วน | หน้าที่ |
+| Part | Purpose |
 |---|---|
-| ตัวอย่าง | โหลดโค้ดตัวอย่าง เช่น ภารกิจเต็ม 3 แท่น, พื้นฐานขับ-ยก-วาง-เดินตามเส้น, อ่านเซ็นเซอร์ส่งออก Serial, แม่แบบว่าง และตัวอย่างจาก library (drive, line_follower, hand_follower, hot_wheels, color_calibration, modulino) |
-| คอมไพล์ & รัน | ตรวจโค้ดแล้วรันบนสนาม (คีย์ลัด `Ctrl` + `Enter` หรือ `⌘` + `Enter`) |
-| หยุด | หยุดโค้ดที่กำลังรัน |
-| ⬇ .ino | ดาวน์โหลดโค้ดเป็นไฟล์ `.ino` เพื่อเปิดใน Arduino IDE |
-| เปิดไฟล์ | โหลดไฟล์ `.ino` จากเครื่อง |
-| แถบสถานะ | บอกผลคอมไพล์ จำนวนบรรทัด และตำแหน่งเคอร์เซอร์ |
+| Examples | Load example code, such as the full 3 stand mission, the basics (drive, lift, put down, follow a line), reading sensors to Serial, an empty template, and library examples (drive, line_follower, hand_follower, hot_wheels, color_calibration, modulino) |
+| Compile & Run | Check the code and run it on the field (shortcut `Ctrl` + `Enter` or `Cmd` + `Enter`) |
+| Stop | Stop the running code |
+| Download .ino | Save the code as an `.ino` file to open in the Arduino IDE |
+| Open file | Load an `.ino` file from the computer |
+| Status bar | Shows the compile result, the line count and the cursor position |
 
-โค้ดบันทึกอัตโนมัติในเบราว์เซอร์ กด `Tab` เพื่อย่อหน้า
+Code is saved in the browser automatically. Press `Tab` to indent.
 
 ### Serial Monitor
 
-แสดงข้อความจาก `Serial.print()` พร้อมเวลา `millis()` และส่งข้อความเข้าโค้ดได้ (`Serial.available()`, `Serial.read()`, `Serial.readStringUntil()`, `Serial.parseInt()`) เลือกตัวปิดบรรทัดได้ ได้แก่ New Line, No line ending หรือ CR + LF
+Shows messages from `Serial.print()` with the `millis()` time, and can send text into the code (`Serial.available()`, `Serial.read()`, `Serial.readStringUntil()`, `Serial.parseInt()`). The line ending can be New Line, No line ending or CR + LF.
 
-### แผงค่าเซ็นเซอร์สด
+### Live sensor panel
 
-แสดงค่าที่โค้ดอ่านได้ในขณะนั้น และเลือกให้แสดงบนสนามได้
+Shows the values the code reads at that moment, and can draw them on the field.
 
-| ค่า | ที่มา |
+| Value | Source |
 |---|---|
-| เส้น L C R | `get_line_sensors()` (พื้นดำประมาณ 900 พื้นขาวประมาณ 40) |
-| ToF (Time-of-Flight) 5 โซน และบน/ล่าง | `get_distance()`, `get_distance_top()`, `get_distance_bottom()` หน่วย cm |
-| สี | `get_color_label()` ได้ white, black, blue หรือ red |
-| pose | `get_pose()` ตำแหน่ง x, y และมุม θ จาก odometry |
+| Line L C R | `get_line_sensors()` (black floor about 900, white floor about 40) |
+| ToF (Time of Flight) 5 zones and top / bottom | `get_distance()`, `get_distance_top()`, `get_distance_bottom()` in cm |
+| Color | `get_color_label()` gives white, black, blue or red |
+| Pose | `get_pose()` x, y and angle θ from odometry |
 | IMU (Inertial Measurement Unit) yaw | `get_orientation()` |
-| ล้อ | ความเร็วล้อซ้ายและขวา หน่วย RPM (Revolutions Per Minute) |
-| เซอร์โว A/B และระยะยก | มุม servo และความสูงที่ยกแท่นได้ |
-| การชน | แจ้งเมื่อชนขาแท่นหรือขอบสนาม |
+| Wheels | Left and right wheel speed in RPM (Revolutions Per Minute) |
+| Servo A/B and lift height | Servo angle and the height the stand is lifted |
+| Collision | Reports hits on stand legs or the field edge |
 
-### ปุ่มสัมผัสและเหตุการณ์จำลอง
+### Touch buttons and simulated events
 
-มีปุ่มสัมผัส 7 ปุ่มเหมือนบนหุ่นยนต์ (✕, ▲, ✓, ◀, ●, ▶, ▼) ให้กดระหว่างโค้ดรัน และเลือกให้กด OK อัตโนมัติตอนเริ่มได้ มีปุ่มจำลอง "ยกตัวหุ่นขึ้น" สำหรับ `get_lifted()` และ "เขย่า" สำหรับ `get_shake()`
+There are 7 touch buttons like on the robot (✕, ▲, ✓, ◀, ●, ▶, ▼) to press while code runs, and an option to press OK automatically at start. There are also simulated "Lift the robot" for `get_lifted()` and "Shake" for `get_shake()`.
 
-### ตั้งค่าชุดยก ทีม B และความสมจริง
+### Lifter, Team B and realism settings
 
-| ค่า | ใช้ทำอะไร |
+| Setting | Use |
 |---|---|
-| พอร์ตเซอร์โวของชุดยก | ต่อชุดยกที่ Servo A (`alvik.servo_A`) หรือ Servo B (`alvik.servo_B`) |
-| ทีม B | เปิด AI สาธิตเพื่อเทียบเวลา หรือปิดเพื่อซ้อมคนเดียว |
-| มุมเซอร์โวตอนลง / ตอนยก | มุมที่ทำให้ชุดยกอยู่ล่างสุดและยกแท่นได้ |
-| ระยะยกสูงสุด | ความสูงที่ชุดยกยกได้ (มม.) |
-| ความเร็วเซอร์โว | ความเร็วการหมุน servo (องศา/วินาที) |
-| ล้อซ้าย/ขวาไม่เท่ากัน | 0% อุดมคติ, 0.5% เล็กน้อย, 1% ปานกลาง, 3% มาก ใช้ทดสอบว่าโค้ดที่นับระยะ (dead reckoning) ยังจอดได้หรือไม่ |
-| ระยะคลาดจากกลางแท่นที่ยกได้ | ระยะเยื้องมากที่สุดที่ชุดยกยังยกแท่นได้ (มม.) |
+| Lifter servo port | Connect the lifter to Servo A (`alvik.servo_A`) or Servo B (`alvik.servo_B`) |
+| Team B | Turn the demo AI on to compare times, or off to practice alone |
+| Servo angle down / up | Angles that put the lifter at the bottom and lift a stand |
+| Max lift height | How high the lifter can lift (mm) |
+| Servo speed | Servo turning speed (degrees per second) |
+| Left / right wheel mismatch | 0% ideal, 0.5% small, 1% medium, 3% large. Tests whether dead reckoning code can still park |
+| Lift tolerance off center | The largest offset from the stand center that can still lift (mm) |
 
-ค่าที่เปลี่ยนจะมีผลเมื่อกดรันครั้งถัดไป
+Changed values take effect on the next run.
 
-### ฟังก์ชันที่รองรับ
+### Supported functions
 
-ใช้ชื่อเดียวกับ library Arduino_Alvik 1.1
+Same names as the Arduino_Alvik 1.1 library.
 
-| กลุ่ม | ฟังก์ชัน |
+| Group | Functions |
 |---|---|
-| เคลื่อนที่ | `move()`, `rotate()`, `drive()`, `set_wheels_speed()` (สูงสุด 70 RPM), `brake()`, `is_target_reached()`, `get_pose()`, `reset_pose()`, `left_wheel` / `right_wheel` |
-| เซ็นเซอร์ | `get_line_sensors()`, `get_distance()`, `get_distance_top()`, `get_distance_bottom()`, `get_color_label()`, `get_color()`, `get_color_raw()`, `get_orientation()`, `get_gyros()`, `get_touch_ok()` และปุ่มอื่น |
-| ชุดยก ไฟ และ Arduino | `servo_A.set_position()`, `set_servo_positions()`, `left_led.set_color()`, `delay()`, `millis()`, `Serial.print()`, `Serial.printf()`, `map()`, `constrain()`, `abs()`, `random()`, `sin()` |
+| Motion | `move()`, `rotate()`, `drive()`, `set_wheels_speed()` (max 70 RPM), `brake()`, `is_target_reached()`, `get_pose()`, `reset_pose()`, `left_wheel` / `right_wheel` |
+| Sensors | `get_line_sensors()`, `get_distance()`, `get_distance_top()`, `get_distance_bottom()`, `get_color_label()`, `get_color()`, `get_color_raw()`, `get_orientation()`, `get_gyros()`, `get_touch_ok()` and the other buttons |
+| Lifter, LEDs and Arduino | `servo_A.set_position()`, `set_servo_positions()`, `left_led.set_color()`, `delay()`, `millis()`, `Serial.print()`, `Serial.printf()`, `map()`, `constrain()`, `abs()`, `random()`, `sin()` |
 | FreeRTOS | `xTaskCreate()`, `vTaskDelay()`, `vTaskDelete()`, `pdMS_TO_TICKS()` |
 | Modulino | ModulinoPixels, ModulinoDistance, ModulinoButtons, ModulinoBuzzer, ModulinoKnob, ModulinoMovement, ModulinoThermo |
 
-รองรับชนิด `int`, `float`, `bool`, `String`, array, `struct`, `enum`, `#define` และ `static` ไม่รองรับ pointer, class และ library อื่น ส่วน ESP-NOW, Wi-Fi, micro-ROS และการอัปเดต firmware ต้องใช้บอร์ดจริง
-
-### เกณฑ์ตัดสินในสนามจำลอง
-
-- **นับแท่น:** ขาทั้ง 4 ขาวางบนพื้น และพื้นที่สัมผัสของทุกขาอยู่ในพื้นที่สีน้ำเงิน
-- **ยกสำเร็จ:** ขาทั้ง 4 ขาลอยพ้นพื้นพร้อมกัน
-- **ลำดับการตัดสิน:**
-  1. จอดครบ 3 แท่นก่อนชนะ
-  2. หมดเวลา ทีมที่จอดได้มากกว่าชนะ
-  3. ถ้าเท่ากัน ทีมที่ยกแท่นแรกได้เร็วกว่าชนะ
-  4. ถ้าไม่มีทีมยกได้ ทีมที่ออกพ้นกรอบแดงเร็วกว่าชนะ
+Supported types are `int`, `float`, `bool`, `String`, arrays, `struct`, `enum`, `#define` and `static`. Pointers, classes and other libraries are not supported. ESP-NOW, Wi-Fi, micro-ROS and firmware updates need the real board.
 
 ---
 
-## 2. Tap Planner (`#tap`)
+## 2. Planner (`#tap`)
 
-วางเส้นทางด้วยการจิ้มบนแผนผังสนามมุมบน (หน่วย cm) ระบบคำนวณมุม `rotate()` และระยะ `move()` ให้ แล้วสร้างเป็นโค้ด Arduino_Alvik
+Plan a path by clicking on the top view field map (in cm). The page works out the `rotate()` angle and the `move()` distance, then builds Arduino_Alvik code.
 
-### โหมด
+### Modes
 
-| โหมด | ใช้ทำอะไร |
+| Mode | Use |
 |---|---|
-| วางเส้นทาง | จิ้มจุดที่ต้องการให้หุ่นยนต์ไป แต่ละครั้งได้คำสั่ง rotate และ move ต่อจากตำแหน่งล่าสุด |
-| วัดระยะ | จิ้มสองจุดเพื่อวัดระยะบนสนาม |
-| ย้ายจุดเริ่ม | เปลี่ยนตำแหน่งเริ่มต้นของหุ่นยนต์ |
+| Path | Click where the robot should go. Each click adds a rotate and a move from the last position |
+| Measure | Click two points to measure a distance on the field |
+| Move start | Change the robot start position |
 
-### ตัวเลือกบนสนาม
+### Field options
 
-- **สนาม:** เลือกแบบที่ 1 สามเหลี่ยม, แบบที่ 2 เรียงด้านขวา หรือแบบที่ 3 กระจาย
-- **Snap:** ดูดจุดที่จิ้มเข้าจุดตัดเส้นถ้าอยู่ใกล้, ทุก 1 cm, ทุก 5 cm หรือไม่ snap
-- **ถอยหลังได้:** ถ้าเป้าหมายอยู่ข้างหลัง ให้ถอยหลังแทนการหมุนเกือบรอบ
+- **Field :** layout 1 triangle, layout 2 right row, or layout 3 scattered
+- **Snap :** snap the click to a line crossing when close, every 1 cm, every 5 cm, or no snap
+- **Allow reverse :** if the target is behind, drive backwards instead of turning almost a full circle
 
-แผง "ถ้าจิ้มตรงนี้" แสดงมุมหมุน (บวกคือหันซ้าย) และระยะเดินก่อนจิ้มจริง พร้อมตำแหน่งและทิศปัจจุบันของหุ่นยนต์ ปุ่มหันซ้าย 90°, หันขวา 90°, +15°, −15° ใช้ปรับทิศ และปุ่ม "จุดเริ่มมาตรฐาน" ใช้วางหุ่นยนต์กลับกลางกรอบแดง
+The "If you click here" panel shows the turn angle (positive turns left) and the distance before you click, with the robot's current position and heading. The buttons turn left 90°, turn right 90°, +15° and −15° adjust the heading, and "Standard start" puts the robot back in the middle of the red box.
 
-### ลำดับคำสั่ง
+### Command list
 
-แสดงคำสั่งทั้งหมดตามลำดับ พร้อมระยะเดินรวมและเวลาโดยประมาณ แก้ตัวเลขในรายการได้โดยตรง
+Shows every command in order, with the total distance and an estimated time. Numbers in the list can be edited directly.
 
-| ปุ่ม | หน้าที่ |
+| Button | Purpose |
 |---|---|
-| + เดินเอง | เพิ่มคำสั่งเดินแบบกำหนดระยะเอง |
-| + ยกแท่น / + วางแท่น | เพิ่มขั้นยกหรือวางแท่นในลำดับ |
-| ย้อน | ลบคำสั่งล่าสุด (หรือกด `Backspace`) |
-| ล้าง | ลบคำสั่งทั้งหมด |
+| + Manual move | Add a move with a custom distance |
+| + Lift / + Put down | Add a lift or put down step |
+| Undo | Remove the last command (or press `Backspace`) |
+| Clear | Remove all commands |
 
-### จำลองการวิ่ง
+### Run simulation
 
-กด "รัน" เพื่อดูหุ่นยนต์วิ่งตามลำดับคำสั่ง ปรับความเร็วได้ 1×, 2× หรือ 4× แถบ "มุมหมุนจริงคลาด" และ "ระยะเดินจริงคลาด" จำลองความคลาดของ rotate และ move เส้นสีส้มประคือทางที่หุ่นยนต์จะวิ่งจริงเมื่อมีความคลาด ใช้ดูว่าปลายทางเลื่อนไปเท่าไร
+Press "Run" to watch the robot follow the commands, at 1x, 2x or 4x. The "turn error" and "move error" sliders simulate errors in rotate and move. The dashed orange line is the path the robot really takes with those errors, so you can see how far the end point drifts.
 
-### โค้ด Arduino_Alvik
+### Arduino_Alvik code
 
-- **แค่คำสั่ง:** เฉพาะบรรทัด `rotate()` และ `move()` สำหรับวางในโค้ดที่มีอยู่
-- **sketch เต็ม:** โปรแกรมพร้อม `setup()` และ `loop()`
-- **คัดลอก:** คัดลอกโค้ดไปใช้ใน Arduino IDE
-- **ส่งไปรันในสนาม C++:** ส่งโค้ดและรูปแบบสนามไปหน้าสนามแข่ง C++ แล้วรันทันที
+- **Commands only :** just the `rotate()` and `move()` lines, to paste into existing code
+- **Full sketch :** a complete program with `setup()` and `loop()`
+- **Copy :** copy the code for the Arduino IDE
+- **Run in Coding :** send the code and the field layout to the Coding page and run it at once
 
 ---
 
 ## 3. LineTrack (`#linetrack`)
 
-สอนหลักการหุ่นยนต์เดินตามเส้นด้วยเซ็นเซอร์ IR (Infrared) 3 ตัว แต่ละตัวอ่านได้ 0 หรือ 1 (1 คือเจอเส้นดำ) รวมได้ 2³ = 8 state
+Teaches line following with 3 IR (Infrared) sensors. Each sensor reads 0 or 1 (1 means it sees the black line), which gives 2³ = 8 states.
 
-### โหมด
+### Modes
 
-| โหมด | ใช้ทำอะไร |
+| Mode | Use |
 |---|---|
-| เลื่อนเอง | เลื่อนหุ่นยนต์ออกซ้ายหรือขวาของเส้น แล้วดูค่า IR และการตัดสินใจของโค้ด |
-| ให้หุ่นวิ่ง | ให้หุ่นยนต์วิ่งตามเส้นเอง แล้วดูว่าแก้ทิศกลับเข้าเส้นอย่างไร |
+| Manual | Slide the robot off the line to the left or right, and watch the IR values and the code decision |
+| Run | Let the robot follow the line by itself, and watch how it steers back |
 
-### การควบคุม
+### Controls
 
-- ลากหุ่นยนต์ในสนาม ใช้แถบเลื่อน หรือกด `←` `→`
-- ปุ่มตำแหน่งสำเร็จรูป: ปกติ, ออกซ้ายนิด, ออกซ้ายเกิน, ออกขวานิด, ออกขวาเกิน, หลุดเส้น
-- ระหว่างหุ่นยนต์วิ่ง: ผลักไปซ้าย, ผลักไปขวา, หยุดชั่วคราว, วางกลับกลางเส้น และปรับความเร็วจำลอง
+- Drag the robot on the field, use the slider, or press the left and right arrow keys
+- Preset positions : center, slightly left, far left, slightly right, far right, off the line
+- While running : push left, push right, pause, put back on the line, and set the sim speed
 
-### สิ่งที่แสดง
+### What is shown
 
-| ส่วน | ความหมาย |
+| Part | Meaning |
 |---|---|
-| ไฟ IR บนหุ่น | ค่าซ้าย กลาง ขวา และตาราง 8 state โดยไฮไลต์ state ปัจจุบัน |
-| ผลการตัดสินใจ | หุ่นยนต์ทำอะไร (วิ่งตรง, เลี้ยวเบา, เลี้ยวแรง, หมุนหาเส้น) และความเร็วล้อซ้าย/ขวา |
-| lastSide | ด้านที่เห็นเส้นล่าสุด ใช้ตัดสินทิศหมุนหาเส้นเมื่อหลุดเส้น |
-| โค้ด if-else | ไฮไลต์เงื่อนไขที่กำลังทำงานในขณะนั้น |
-| ตั้งค่า PWM (Pulse-Width Modulation) 0–255 | ปรับความเร็วล้อแต่ละกรณี แล้วกด "คัดลอกเป็นโค้ด" หรือ "ค่าเริ่มต้น" |
+| IR lights on the robot | Left, center and right values, and the 8 state table with the current state highlighted |
+| Decision | What the robot does (straight, soft turn, hard turn, search for the line) and the left / right wheel speeds |
+| lastSide | The side where the line was last seen, used to pick the search direction when the line is lost |
+| if-else code | Highlights the condition running at that moment |
+| PWM (Pulse Width Modulation) settings 0 to 255 | Set the wheel speed for each case, then press "Copy as code" or "Defaults" |
